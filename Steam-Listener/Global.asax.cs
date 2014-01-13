@@ -32,9 +32,7 @@ namespace Steam_Listener
 
             var testUser = new User();
 
-           switch(CloudConfigurationManager.GetSetting("ENVIRONMENT")) {
-
-                case "azure": 
+           if(String.IsNullOrEmpty(CloudConfigurationManager.GetSetting("ENVIRONMENT"))) {
                 // Get the configuration data from Windows Azure
                 testUser.userName = CloudConfigurationManager.GetSetting("STEAM_USER");
                 testUser.userPass = CloudConfigurationManager.GetSetting("STEAM_PASSWORD");
@@ -43,10 +41,7 @@ namespace Steam_Listener
                 HttpSettings.URL = CloudConfigurationManager.GetSetting("ENDPOINT_URL");
                 HttpSettings.secret = CloudConfigurationManager.GetSetting("LISTENER_SECRET");
                 HttpSettings.AppsPerRequest = int.Parse(CloudConfigurationManager.GetSetting("APPS_PER_REQUEST")); // default: 50
-
-                break;
-
-                default:
+           } else {
                 // Manually Fill out this data for testing  
                 testUser.userName = "";
                 testUser.userPass = "";
@@ -55,16 +50,10 @@ namespace Steam_Listener
                 HttpSettings.URL = "";
                 HttpSettings.secret = "";
                 HttpSettings.AppsPerRequest = 50; // default
-
-                break;
-
             }
-
 
             SteamListener.user = testUser;
             SteamListener.init();
-
-
         }
     }
 }
