@@ -56,15 +56,16 @@ namespace Steam_Listener
                 Settings.TimerInterval = timerInterval;
            } else {
                 // Manually Fill out this data for testing  
-                listenUser.userName = "BackboneSteamLocal";
-                listenUser.userPass = "unicornblood666";
+                listenUser.userName = "";
+                listenUser.userPass = "";
                 listenUser.authCode = "";  // sent by email on first SteamGuard protected logon
 
-                HttpSettings.URL = "http://localhost:3000/api/populate";
-                HttpSettings.secret = "test";
-                HttpSettings.AppsPerRequest = 50; // default
+                HttpSettings.URL = "";
+                HttpSettings.secret = "";
+                HttpSettings.AppsPerRequest = 5; // default
 
-                Settings.TimerInterval = 30000; // default
+
+                Settings.TimerInterval = 15000; // default
 
             }
 
