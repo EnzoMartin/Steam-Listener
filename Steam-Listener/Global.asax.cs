@@ -40,7 +40,13 @@ namespace Steam_Listener
 
                 HttpSettings.URL = CloudConfigurationManager.GetSetting("ENDPOINT_URL");
                 HttpSettings.secret = CloudConfigurationManager.GetSetting("LISTENER_SECRET");
-                HttpSettings.AppsPerRequest = int.Parse(CloudConfigurationManager.GetSetting("APPS_PER_REQUEST"));
+
+                int appsPerRequest;
+                if(!int.TryParse(CloudConfigurationManager.GetSetting("APPS_PER_REQUEST"), out appsPerRequest))
+                {
+                    appsPerRequest = 50;
+                }
+                HttpSettings.AppsPerRequest = appsPerRequest;
            } else {
                 // Manually Fill out this data for testing  
                 listenUser.userName = "";
