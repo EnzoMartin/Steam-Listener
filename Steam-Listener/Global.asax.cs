@@ -30,29 +30,29 @@ namespace Steam_Listener
 
             Logs.initialize();
 
-            var testUser = new User();
+            var listenUser = new User();
 
-           if(String.IsNullOrEmpty(CloudConfigurationManager.GetSetting("ENVIRONMENT"))) {
+           if(!String.IsNullOrEmpty(CloudConfigurationManager.GetSetting("ENVIRONMENT"))) {
                 // Get the configuration data from Windows Azure
-                testUser.userName = CloudConfigurationManager.GetSetting("STEAM_USER");
-                testUser.userPass = CloudConfigurationManager.GetSetting("STEAM_PASSWORD");
-                testUser.authCode = "";  // sent by email on first SteamGuard protected logon
+                listenUser.userName = CloudConfigurationManager.GetSetting("STEAM_USER");
+                listenUser.userPass = CloudConfigurationManager.GetSetting("STEAM_PASSWORD");
+                listenUser.authCode = CloudConfigurationManager.GetSetting("STEAM_GUARD");
 
                 HttpSettings.URL = CloudConfigurationManager.GetSetting("ENDPOINT_URL");
                 HttpSettings.secret = CloudConfigurationManager.GetSetting("LISTENER_SECRET");
-                HttpSettings.AppsPerRequest = int.Parse(CloudConfigurationManager.GetSetting("APPS_PER_REQUEST")); // default: 50
+                HttpSettings.AppsPerRequest = int.Parse(CloudConfigurationManager.GetSetting("APPS_PER_REQUEST"));
            } else {
                 // Manually Fill out this data for testing  
-                testUser.userName = "";
-                testUser.userPass = "";
-                testUser.authCode = "";  // sent by email on first SteamGuard protected logon
+                listenUser.userName = "";
+                listenUser.userPass = "";
+                listenUser.authCode = "";  // sent by email on first SteamGuard protected logon
 
                 HttpSettings.URL = "";
                 HttpSettings.secret = "";
                 HttpSettings.AppsPerRequest = 50; // default
             }
 
-            SteamListener.user = testUser;
+            SteamListener.user = listenUser;
             SteamListener.init();
         }
     }
