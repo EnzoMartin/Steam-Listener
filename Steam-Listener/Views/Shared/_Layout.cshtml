@@ -4,18 +4,74 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Steam Listener</title>
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery.signalR-2.0.1.min.js"></script>
-    <script src="/signalr/hubs"></script> 
-   <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+    <script src="/signalr/hubs"></script>
+    <style>
+        body {
+            padding-top: 51px;
+            background-color: #CCC;
+        }
 
+        #console {
+            color: #B1B1B1;
+            height: 500px;
+            overflow-y: scroll;
+            padding: 10px;
+            background-color: #000;
+            border-radius: 0 0 5px 5px;
+        }
 
+        #console span {
+            display: block;
+            padding-bottom: 2px;
+        }
+
+        .btn + .btn {
+            margin-left: 10px;
+        }
+
+        .glyphicon {
+            margin-right: 5px;
+        }
+    </style>
 </head>
-<body>
-
-
-
+<body id="body">
     @RenderBody()
+    <script type="text/javascript">
+        var $console = $('#console');
+        var objDiv = document.getElementById('console');
 
+        $console.append('<span>Initializing.. please wait. </span>');
+
+        // Declare a proxy to reference the hub.
+        var chat = $.connection.logConsole;
+
+        // Create a function that the hub can call to broadcast messages.
+        chat.client.broadcastMessage = function (name) {
+            // Add the message to the page.
+            $console.append('<span>' + name + '</span>');
+
+            if (!$console.is(':hover')) {
+                objDiv.scrollTop = objDiv.scrollHeight;
+            }
+        };
+
+        // Start the connection.
+        $.connection.hub.start().done(function () {
+            $console.append('<span>Connected to Steam Listener</span>');
+        });
+
+        function clearConsole() {
+            $console.empty();
+        }
+
+        $('#clear').on('click', function (event) {
+            event.preventDefault();
+            clearConsole();
+        });
+    </script>
 </body>
 </html>
