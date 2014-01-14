@@ -44,9 +44,6 @@ namespace Steam_Listener.lib
 
             // this callback is triggered when the steam servers wish for the client to store the sentry file
             new JobCallback<SteamUser.UpdateMachineAuthCallback>(OnMachineAuth, manager);
-
-
-
         }
 
         public bool ConnState()

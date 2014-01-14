@@ -189,8 +189,17 @@ namespace Steam_Listener.lib
                 var info = new Dictionary<string, string>();
                 foreach (var kvp in callback.Apps[0].Sections.Values)
                 {
-                    var temp = kvp.Children.ToArray()[0];
-                    info.Add(temp.Name, temp.Value);
+                    foreach (var item in kvp.Children.ToArray())
+                    {
+                        try
+                        {
+                            info.Add(item.Name, item.Value);
+                        }
+                        catch (ArgumentException Ex)
+                        {
+                            // Spaghetti code to deal with Valves beautiful duplicate content
+                        }
+                    }
                 }
                 ChangedApps.Add(new App(callback.Apps[0].AppID, callback.Apps[0].ChangeNumber, info));
             }

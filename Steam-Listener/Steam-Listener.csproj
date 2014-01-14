@@ -220,6 +220,8 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\steamlistener - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\steamlistener - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\steamlistenertest - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\steamlistenertest - Web Deploy.pubxml" />
   </ItemGroup>

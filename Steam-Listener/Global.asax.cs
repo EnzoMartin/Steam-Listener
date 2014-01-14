@@ -62,9 +62,9 @@ namespace Steam_Listener
 
                 HttpSettings.URL = "";
                 HttpSettings.secret = "";
-                HttpSettings.AppsPerRequest = 50; // default
+                HttpSettings.AppsPerRequest = 5; // default
 
-                Settings.TimerInterval = 30000; // default
+                Settings.TimerInterval = 15000; // default
 
             }
 
