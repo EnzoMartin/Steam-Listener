@@ -48,8 +48,12 @@ namespace Steam_Listener
                 }
                 HttpSettings.AppsPerRequest = appsPerRequest;
 
-                Settings.TimerInterval = int.Parse(CloudConfigurationManager.GetSetting("TIMER_INTERVAL"));
- 
+                int timerInterval;
+                if (!int.TryParse(CloudConfigurationManager.GetSetting("TIMER_INTERVAL"), out timerInterval))
+                {
+                    timerInterval = 20000;
+                }
+                Settings.TimerInterval = timerInterval;
            } else {
                 // Manually Fill out this data for testing  
                 listenUser.userName = "";
