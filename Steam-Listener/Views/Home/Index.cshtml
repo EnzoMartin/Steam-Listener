@@ -1,3 +1,45 @@
 ﻿<div id="body">
-   <h2>Steam Listener</h2>
+
+    <style>
+        p {
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+
+        body {
+            font-size: 16px;
+            color: #00ff21;
+            font-family: 'Inconsolata', sans-serif;
+        }
+    </style>
+
+    <h2 style="color: #000">Steam Listener</h2>
+    <hr />
+    <div class="container" style="background-color: #000; padding: 50px; width:60%; height:500px; overflow: scroll;">
+        <div id="discussion"></div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#discussion').append('<p>&nbsp;&nbsp; Initializing.. please wait. </p>');
+
+            // Declare a proxy to reference the hub. 
+            var chat = $.connection.logConsole;
+            // Create a function that the hub can call to broadcast messages. 
+            chat.client.broadcastMessage = function (name, message) {
+                // Html encode display name and message. 
+                var encodedName = $('<div />').text(name).html();
+                var encodedMsg = $('<div />').text(message).html();
+                // Add the message to the page. 
+                $('#discussion').append('<p>&nbsp;&nbsp;' + encodedName + '</p>');
+            };
+            // Start the connection. 
+            $.connection.hub.start().done(function () {
+
+                $('#discussion').append('<p>&nbsp;&nbsp; Connected to Steam Listener v0.1. </p>');
+                $('#discussion').append('<p> </p>');
+
+            });
+        });
+    </script>
 </div>

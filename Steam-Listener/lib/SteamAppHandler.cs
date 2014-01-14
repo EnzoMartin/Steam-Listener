@@ -24,6 +24,7 @@ namespace Steam_Listener.lib
         private static int lastProc { get; set; }
         private static int AIcount { get; set; }
         private static int currProc { get; set; }
+        public static int timerInterval { get; set; }
 
         public SteamAppHandler(SteamClient client, User userModel)
         {
@@ -34,7 +35,7 @@ namespace Steam_Listener.lib
 
             Timer = new System.Timers.Timer();
             Timer.Elapsed += OnTimer;
-            Timer.Interval = TimeSpan.FromSeconds(10).TotalMilliseconds;
+            Timer.Interval = Settings.TimerInterval;
         }
 
         public static void init()
@@ -96,9 +97,10 @@ namespace Steam_Listener.lib
             else if (currProc + currChangedPackageKeys == total)
             {
                 Logs.Log("SteamApps", "Completed Processing AppCycle.");
-                var http = new SteamHttpClient();
-                http.process(ChangedApps);
+                var apps = ChangedApps;
                 ChangedApps.Clear();
+                var http = new SteamHttpClient();
+                http.process(apps);
                 currChangedAppKeys = 0;
                 currChangedPackageKeys = 0;
                 AIcount = 0;
@@ -110,7 +112,7 @@ namespace Steam_Listener.lib
                 if (currProc == lastProc && currProc > 0 && lastProc > 0)
                 {
                     AIcount++;
-                    Logs.Log("SteamApps", "App processing queue appears to be stuck at " + ChangedApps.Count + " out of " + currChangedAppKeys + "(" + AIcount + ")");
+                    Logs.Log("SteamApps", "App processing queue appears to be stuck at " + ChangedApps.Count + " out of " + currChangedAppKeys + " (" + AIcount + ")");
 
                 }
 
@@ -123,9 +125,11 @@ namespace Steam_Listener.lib
                     currProc = 0;
                     lastProc = 0;
                     Logs.Log("SteamApps", "AppCycle seems to have reached maximum, preparing to send gathered data.");
-                    var http = new SteamHttpClient();
-                    http.process(ChangedApps);
+                    var apps = ChangedApps;
                     ChangedApps.Clear();
+                    var http = new SteamHttpClient();
+                    http.process(apps);
+                    
                     return;
                 }
                 // Cycle isn't done yet

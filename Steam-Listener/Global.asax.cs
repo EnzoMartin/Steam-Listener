@@ -44,17 +44,21 @@ namespace Steam_Listener
                 HttpSettings.secret = CloudConfigurationManager.GetSetting("LISTENER_SECRET");
                 HttpSettings.AppsPerRequest = int.Parse(CloudConfigurationManager.GetSetting("APPS_PER_REQUEST")); // default: 50
 
+                Settings.TimerInterval = int.Parse(CloudConfigurationManager.GetSetting("TIMER_INTERVAL"));
+
                 break;
 
                 default:
                 // Manually Fill out this data for testing  
-                testUser.userName = "";
-                testUser.userPass = "";
+                testUser.userName = "SteamBackbone";
+                testUser.userPass = "unicornblood666";
                 testUser.authCode = "";  // sent by email on first SteamGuard protected logon
 
-                HttpSettings.URL = "";
-                HttpSettings.secret = "";
+                HttpSettings.URL = "http://steam-backbone.azurewebsites.net/api/populate";
+                HttpSettings.secret = "bz@dvj*-!7i5)&smg#3jfn^90pjmpos(@e74ng-ze1*!ghuc5%";
                 HttpSettings.AppsPerRequest = 50; // default
+
+                Settings.TimerInterval = 20000; 
 
                 break;
 

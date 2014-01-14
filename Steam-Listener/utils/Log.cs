@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Microsoft.AspNet.SignalR; 
 
 namespace Steam_Listener.utils
 {
@@ -54,13 +55,8 @@ namespace Steam_Listener.utils
         /// <param name="msg">The msg to be written to the Logfile</param>
         public static void Log(string msg)
         {
-            lock (lockObj)
-            {
-               /* using (stream = File.AppendText("Log.txt"))
-                {
-                    stream.WriteLine("[" + DateTime.Now.ToLongTimeString() + "] " + msg);
-                } */
-            }
+            var context = GlobalHost.ConnectionManager.GetHubContext<LogConsole>();
+            context.Clients.All.broadcastMessage("[" + DateTime.Now.ToLongTimeString() + "] " + msg); 
         }
 
         /// <summary>
