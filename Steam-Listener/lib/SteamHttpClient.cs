@@ -27,11 +27,10 @@ namespace Steam_Listener.lib
 
         public void process(List<App> apps)
         {
-            var total = apps.Count / max;
-
-            for (int i = 0; i < total; i++)
+            int i = 0;
+            foreach (var grouping in apps.GroupBy(s => ++i / max))
             {
-                var appReq = new AppRequest(secret, apps.Skip(i * total).Take(max));
+                var appReq = new AppRequest(secret, grouping.ToList());
                 sendData(JsonConvert.SerializeObject((appReq)));
             }
 
@@ -60,7 +59,9 @@ namespace Steam_Listener.lib
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                 {
                     var result = streamReader.ReadToEnd();
+                    Logs.Log("SteamHTTP", "Sent " + data.Length + " bytes to server. Response: " + result);
                 }
+          
             }
 
 

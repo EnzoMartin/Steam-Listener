@@ -97,7 +97,7 @@ namespace Steam_Listener.lib
             else if (currProc + currChangedPackageKeys == total)
             {
                 Logs.Log("SteamApps", "Completed Processing AppCycle.");
-                var apps = ChangedApps;
+                var apps = new List<App>(ChangedApps);
                 ChangedApps.Clear();
                 var http = new SteamHttpClient();
                 http.process(apps);
@@ -125,7 +125,7 @@ namespace Steam_Listener.lib
                     currProc = 0;
                     lastProc = 0;
                     Logs.Log("SteamApps", "AppCycle seems to have reached maximum, preparing to send gathered data.");
-                    var apps = ChangedApps;
+                    var apps = new List<App>(ChangedApps);
                     ChangedApps.Clear();
                     var http = new SteamHttpClient();
                     http.process(apps);
