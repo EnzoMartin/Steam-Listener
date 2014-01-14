@@ -24,7 +24,7 @@ namespace Steam_Listener.utils
         /// </summary>
         public static void initialize()
         {
-            if (File.Exists("Log.txt"))
+          /*  if (File.Exists("Log.txt"))
             {
                 try
                 {
@@ -45,7 +45,7 @@ namespace Steam_Listener.utils
             catch (IOException e)
             {
                 Console.Write(e.Message);
-            }
+            } */
         }
 
         /// <summary>
@@ -56,10 +56,10 @@ namespace Steam_Listener.utils
         {
             lock (lockObj)
             {
-                using (stream = File.AppendText("Log.txt"))
+               /* using (stream = File.AppendText("Log.txt"))
                 {
                     stream.WriteLine("[" + DateTime.Now.ToLongTimeString() + "] " + msg);
-                }
+                } */
             }
         }
 
