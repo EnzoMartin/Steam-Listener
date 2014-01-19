@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Net;
 using Steam_Listener.Models;
@@ -27,14 +28,14 @@ namespace Steam_Listener.lib
 
         public void process(List<App> apps)
         {
-            int i = 0;
             int current = 0;
-            int total = apps.Count / max;
-            foreach (var grouping in apps.GroupBy(s => ++i / max))
+            int total = apps.Count;
+            foreach (var app in apps)
             {
                 current++;
-                var appReq = new AppRequest(secret, current, total, grouping.ToList());
+                var appReq = new AppRequest(secret, current, total, app);
                 sendData(JsonConvert.SerializeObject((appReq)));
+                Thread.Sleep(Settings.SendInterval);
             }
         }
 

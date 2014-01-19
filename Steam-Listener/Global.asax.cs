@@ -48,6 +48,13 @@ namespace Steam_Listener
                 }
                 HttpSettings.AppsPerRequest = appsPerRequest;
 
+                int sendInterval;
+                if (!int.TryParse(CloudConfigurationManager.GetSetting("SEND_INTERVAL"), out sendInterval))
+                {
+                    sendInterval = 50;
+                }
+                Settings.SendInterval = sendInterval;
+
                 int timerInterval;
                 if (!int.TryParse(CloudConfigurationManager.GetSetting("TIMER_INTERVAL"), out timerInterval))
                 {
@@ -64,7 +71,7 @@ namespace Steam_Listener
                 HttpSettings.secret = "";
                 HttpSettings.AppsPerRequest = 5; // default
 
-
+                Settings.SendInterval = 1; //default
                 Settings.TimerInterval = 15000; // default
 
             }

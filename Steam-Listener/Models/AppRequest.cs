@@ -10,9 +10,9 @@ namespace Steam_Listener.Models
         public string secret { get; set; }
         public int current { get; set; }
         public int total { get; set; }
-        public IEnumerable<App> data { get; set; }
+        public App data { get; set; }
 
-        public AppRequest(string s, int current, int total, IEnumerable<App> d)
+        public AppRequest(string s, int current, int total, App d)
         {
             this.secret = s;
             this.current = current;
