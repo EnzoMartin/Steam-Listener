@@ -28,13 +28,14 @@ namespace Steam_Listener.lib
         public void process(List<App> apps)
         {
             int i = 0;
+            int current = 0;
+            int total = apps.Count / max;
             foreach (var grouping in apps.GroupBy(s => ++i / max))
             {
-                var appReq = new AppRequest(secret, grouping.ToList());
+                current++;
+                var appReq = new AppRequest(secret, current, total, grouping.ToList());
                 sendData(JsonConvert.SerializeObject((appReq)));
             }
-
-
         }
 
         public void sendData(string data)
