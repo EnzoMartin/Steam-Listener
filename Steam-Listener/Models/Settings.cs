@@ -9,5 +9,6 @@ namespace Steam_Listener.Models
     {
         public static int TimerInterval { get; set; }
         public static int SendInterval { get; set; }
+        public static int startRevision { get; set; }
     }
 }

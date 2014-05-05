@@ -30,7 +30,7 @@ namespace Steam_Listener.lib
         {
             steamClient = client;
             user = userModel;
-            PreviousChange = 1;
+            PreviousChange = 0;
             init();
 
             Timer = new System.Timers.Timer();
@@ -41,6 +41,7 @@ namespace Steam_Listener.lib
         public static void init()
         {
 
+            if (Settings.startRevision > 0) { PreviousChange = (uint)Settings.startRevision; }
             manager = new CallbackManager(steamClient);
             Apps = steamClient.GetHandler<SteamApps>();
             ChangedApps = new List<App>();
@@ -89,7 +90,7 @@ namespace Steam_Listener.lib
             if (currChangedAppKeys == 0 && currProc == 0)
             {
                 lastProc = ChangedApps.Count;
-                Logs.Log("SteamApps", "Running update cycle..");
+                Logs.Log("SteamApps", "Running update cycle (Revision: " + PreviousChange + ")..");
                 GetPICSChanges();
 
             }
@@ -142,11 +143,11 @@ namespace Steam_Listener.lib
         {
             if (PreviousChange == callback.CurrentChangeNumber)
             {
-                Logs.Log("SteamApps", "All titles are up to date.");
+                Logs.Log("SteamApps", "All titles are up to date. Revision: " + PreviousChange);
                 return;
             }
 
-            Logs.Log("SteamApps", "Changelist " + PreviousChange + " -> " + callback.CurrentChangeNumber + " . Changed Apps: " + callback.AppChanges.Count + " Changed Packages: " + callback.PackageChanges.Count);
+            Logs.Log("SteamApps", "Changelist (Rev) " + PreviousChange + " -> " + callback.CurrentChangeNumber + " . Changed Apps: " + callback.AppChanges.Count + " Changed Packages: " + callback.PackageChanges.Count);
             Logs.Log("SteamApps", "Processing apps..");
             PreviousChange = callback.CurrentChangeNumber;
 

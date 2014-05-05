@@ -68,11 +68,13 @@ namespace Steam_Listener
                 listenUser.authCode = "";  // sent by email on first SteamGuard protected logon
 
                 HttpSettings.URL = "";
+                HttpSettings.featureClearURL = ""; // api endpoint for the Feature Clear/Update URL
                 HttpSettings.secret = "";
-                HttpSettings.AppsPerRequest = 5; // default
+                HttpSettings.AppsPerRequest = 50; // default
 
-                Settings.SendInterval = 1; //default
+                Settings.SendInterval = 1000; //default
                 Settings.TimerInterval = 15000; // default
+                Settings.startRevision = 494063; // Change/Revision number to start from (uses Steam internal revision numbers) i.e. 494063
 
             }
 

@@ -10,5 +10,6 @@ namespace Steam_Listener.Models
         public static string URL { get; set; }
         public static string secret { get; set; }
         public static int AppsPerRequest { get; set; }
+        public static string featureClearURL { get; set; }
     }
 }
