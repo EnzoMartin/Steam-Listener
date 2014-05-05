@@ -20,11 +20,16 @@ namespace Steam_Listener.utils
         /// </summary>
         private static object lockObj = new object();
 
+
+        private static List<string> loghistory;
+
         /// <summary>
         /// Creates the Log.txt file if it does not exist, effectively instantiating the Log-class
         /// </summary>
         public static void initialize()
         {
+
+            loghistory = new List<string>();
           /*  if (File.Exists("Log.txt"))
             {
                 try
@@ -55,8 +60,10 @@ namespace Steam_Listener.utils
         /// <param name="msg">The msg to be written to the Logfile</param>
         public static void Log(string msg)
         {
+            var logmsg = "[" + DateTime.Now.ToLongTimeString() + "] " + msg;
+            loghistory.Add(logmsg);
             var context = GlobalHost.ConnectionManager.GetHubContext<LogConsole>();
-            context.Clients.All.broadcastMessage("[" + DateTime.Now.ToLongTimeString() + "] " + msg); 
+            context.Clients.All.broadcastMessage(logmsg); 
         }
 
         /// <summary>
@@ -78,6 +85,23 @@ namespace Steam_Listener.utils
         public static void Log(string className, string func, string msg)
         {
             Log("" + className + "-" + func + ": " + msg);
+        }
+
+
+        public static void send_history(Microsoft.AspNet.SignalR.Hubs.HubCallerContext con)
+        {
+            var history = loghistory;
+
+            if (history.Count > 25)
+            {
+                history = history.GetRange(history.Count-26,25);
+            } 
+            var context = GlobalHost.ConnectionManager.GetHubContext<LogConsole>();
+            foreach (string msg in history)
+            {
+                context.Clients.Client(con.ConnectionId).broadcastmessage(msg);
+            }
+        
         }
     }
     }

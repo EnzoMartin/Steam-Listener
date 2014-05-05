@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Steam_Listener.utils;
 
 namespace Steam_Listener.Controllers
 {
